@@ -1,4 +1,4 @@
-class Read
+module Read
   def initialize(path)
       @path=path
   end
@@ -6,7 +6,9 @@ class Read
   def dataread(r,c)
 	 require 'spreadsheet'
 	 #@data1
+   @data1 = nil
 	 book = Spreadsheet.open(@path)
+   #p Spreadsheet
 	 sheet1 = book.worksheet 0
 	 sheet1.each_with_index do |row, index|
     	for column in 0..(row.length-1)
