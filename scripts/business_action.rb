@@ -107,6 +107,7 @@ class BusinessAction
   	# CHECKING MINICART--CLICK MINICART--> CHECK PRODUCT ADDED IN CART PAGE
   	def cart_check
     	puts "cart"
+    	sleep(2)
 	    mini_cart_text.click
     	wait_for_spinner
     	puts @prod2 = cartpage_productname.text.downcase
