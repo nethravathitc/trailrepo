@@ -15,7 +15,12 @@ class Driver
 		
 		#for i in 1..1
 		i=1
-		while dataread(i,0)!= nil
+		while dataread(i,0)!= nil || dataread(i,3)!=nil
+			p dataread(i,0)!= nil 
+			p dataread(i,3)!=nil
+
+			if(dataread(i,0)!=nil)
+
 			test_suit= dataread(i,0)
 			puts "\n\nTest Suit Name :" + test_suit
 			
@@ -24,20 +29,20 @@ class Driver
 
 			execution_flag = dataread(i,2)
 			puts "Execution Flag :" + execution_flag
+			end
 		
 			if execution_flag=="YES"
-				j=3
-				while dataread(i,j)!=nil
-					action= dataread(i,j)
+				begin 
+					action= dataread(i,3)
 					puts "Action Name :" + action
 					@obj_action.send("#{action}")
-					j=j+1
-				end
+					i=i+1
+				end while dataread(i,0)==nil
 			else
-				puts "Execution Flag :" + execution_flag
-
+				#puts "Execution Flag :" + execution_flag
+				i=i+1
 			end
-			i=i+1
+			
 
 		end
 
