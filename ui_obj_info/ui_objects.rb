@@ -7,7 +7,7 @@ module Css
 	{:name => "first_sale", :css => "#sales-container > div > ul > li:nth-child(1) div.double-arrow > a"},
     
     #product_catalog page
-	{:name => "first_product", :css => "#product-container > div > ul > li.product-wrap:nth-child(2) > div.products-wrapper .go-to-product"},                                        
+	{:name => "first_product", :css => "#product-container > div > ul > li.product-wrap:nth-child(1) > div.products-wrapper .go-to-product"},                                        
        
     #register_page
 	{:name => "register_page_title", :css => "#st-register > h1"},	
@@ -68,6 +68,8 @@ module Css
     #cart_page
     {:name => "proceed_to_checkout", :css => "#cart-checkout-btn"}, #proceed_to_checkout button
     {:name => "cartpage_productname", :css => "#cart_product_1 > div:nth-child(2) > p:nth-child(1) > a"},
+    {:name => "remove_sold_out", :css=>"#cart_product_1 > div.soldItem.ng-scope > p > a"},
+    {:name=> "remove_normal",:css => "#cart_product_1 > div:nth-child(2) > div > a"},
     
     #checkout/email
     {:name => "continue", :css => "#open-two"},  #continue_button
