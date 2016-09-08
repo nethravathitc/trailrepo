@@ -32,14 +32,15 @@ class Driver
 			end
 		
 			if execution_flag=="YES"
-				while dataread(i,0)!=nil || dataread(i,3)!=nil
-					puts "i value before increment "+ i.to_s
+				#while dataread(i,0)!=nil || dataread(i,3)!=nil
+				begin
+					#puts "i value before increment "+ i.to_s
 					action= dataread(i,3)
-					puts "Action Name :" + action
+					puts "\nAction Name :" + action
 					@obj_action.send("#{action}")
 					i=i+1
-					puts "i value after increment "+ i.to_s
-				end
+					#puts "i value after increment "+ i.to_s
+				end while(dataread(i,0)==nil) && dataread(i,3)!=nil
 				
 			else
 				#puts "Execution Flag :" + execution_flag
