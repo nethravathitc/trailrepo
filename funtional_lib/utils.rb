@@ -16,7 +16,7 @@ module Utils
    Selenium::WebDriver::Chrome::Service.executable_path = '/home/styletag/Documents/chromedriver'
  	$driver = Selenium::WebDriver.for :chrome
 
-    $driver.navigate.to @live_url
+    $driver.navigate.to @base_url
     $driver.manage.window.maximize
 
   end
