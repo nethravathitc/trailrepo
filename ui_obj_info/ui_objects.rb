@@ -1,13 +1,14 @@
 module Css
 	[ #c1's
     {:name => "ethnic_wear", :css => "#ethnic-wear"}, #women
+    {:name => "c3", :css => ".submenu > li:nth-child(1) > ul > li > ul > li > ul > li > ul > li:nth-child(1) > ul > li:nth-child(1) > a.col-dark-grey"}, # first c3
     {:name => "best_seller", :css => "#best-seller"},  #best-seller
 
     #sale_catalog page
 	{:name => "first_sale", :css => "#sales-container > div > ul > li:nth-child(1) div.double-arrow > a"},
     
     #product_catalog page
-	{:name => "first_product", :css => "#product-container > div.ng-isolate-scope > ul > li:nth-child(1) > div > div.product-image > a > img"},                                        
+	{:name => "first_product", :css => "#product-container > div.ng-isolate-scope > ul > li:nth-child(4) > div > div.product-image > a > img"},                                        
        
     #register_page
 	{:name => "register_page_title", :css => "#st-register > h1"},	
@@ -65,10 +66,10 @@ module Css
 
     #product_view page
     {:name => "add_to_cart_button", :css => "#add-to-cart-button"}, # add_to_cart button
-    {:name => "productviewpage_productname", :css => "#sale-main-desc > div.cart-form.pull-left > h1"},
-    {:name => "size", :css => ".in-stock:nth-child(2) div"}, #size select
+    {:name => "productviewpage_productname", :css => "#sale-main-desc > div.cart-form > h1"},
+    {:name => "size", :css => ".in-stock:nth-child(1) div"}, #size select
     #mini_cart
-    {:name => "mini_cart_text", :css => "#mini-cart-wrap > li > div.minicart-inner-div > a.col-dark-grey.mini-cart-text"},   
+    {:name => "mini_cart_text", :css => "#mini-cart-wrap > li > div.minicart-inner-div > a > span"},   
     
     #cart_page
     {:name => "proceed_to_checkout", :css => "#cart-checkout-btn"}, #proceed_to_checkout button
