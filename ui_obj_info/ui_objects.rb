@@ -1,13 +1,13 @@
 module Css
 	[ #c1's
-    {:name => "women", :css => "#women"}, #women
+    {:name => "ethnic_wear", :css => "#ethnic-wear"}, #women
     {:name => "best_seller", :css => "#best-seller"},  #best-seller
 
     #sale_catalog page
 	{:name => "first_sale", :css => "#sales-container > div > ul > li:nth-child(1) div.double-arrow > a"},
     
     #product_catalog page
-	{:name => "first_product", :css => "#product-container > div > ul > li.product-wrap:nth-child(1) > div.products-wrapper .go-to-product"},                                        
+	{:name => "first_product", :css => "#product-container > div.ng-isolate-scope > ul > li:nth-child(1) > div > div.product-image > a > img"},                                        
        
     #register_page
 	{:name => "register_page_title", :css => "#st-register > h1"},	
@@ -21,7 +21,8 @@ module Css
 	{:name => "r_login_using_gplus", :css => "#st-register > div.social-login > a:nth-child(2) > img"}, 
 
 	#login_page
-	{:name => 'login_link', :css => "#account-wrap > div > div:nth-child(1) > a"},
+	{:name => 'login_name', :css => "#login-name"},
+    {:name => 'login_link', :css => "#account-wrap > div > div:nth-child(1) > div > div > div:nth-child(4) > a.login-link"},
 	{:name => "login_email", :css => "#login_email"},
     {:name => "login_password", :css => "#login_password"},
     {:name => "login_btn", :css => "#login-btn"},
@@ -57,7 +58,11 @@ module Css
     #search field                                
     {:name => "search_field", :css => "#aws_form_search > #appendedInputButtons"}, #search input text
     {:name => "search_button", :css => "#aws_form_search > #submitButton"}, #search button
-    
+
+    #sort by
+    {:name => "low_high", :css => "#sorting > div.pull-right > select > option:nth-child(2)"},
+    {:name => "high_low", :css => "#sorting > div.pull-right > select > option:nth-child(3)"},
+
     #product_view page
     {:name => "add_to_cart_button", :css => "#add-to-cart-button"}, # add_to_cart button
     {:name => "productviewpage_productname", :css => "#sale-main-desc > div.cart-form.pull-left > h1"},
