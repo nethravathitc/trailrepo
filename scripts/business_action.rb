@@ -74,10 +74,10 @@ class BusinessAction
   # CLEARING CART --BY CLICKING ON MINICART
     def clear_cart
       sleep(1)
-
-      element = $driver.find_element(:css,"#mini-cart-wrap > li > div.minicart-inner-div > a:nth-child(3) > span") 
+      #element = $driver.find_element(:css,"#mini-cart-wrap > li > div.minicart-inner-div > a:nth-child(3) > span") 
+      
       puts "moving cursor to minicart"
-      $driver.action.move_to(element).perform
+      $driver.action.move_to(mini_cart_text).perform
 
       sleep(2) 
       begin
@@ -91,86 +91,68 @@ class BusinessAction
     end
 
   	# ADDING PRODUCT TO CART--HOME PAGE-->SALE-->PRODUCT CATALOG-->PRODUCT--> BUTTON CLICK
-  	def adding_to_cart
+    def adding_to_cart
     
-    	sleep(2)
-    	puts "click c1..."
-    	women.click
-    	wait_for_spinner
-	    #puts "click first sale..." NO MORE SALE VIEW
-    	#first_sale.click
-    	#wait_for_spinner
-    	sleep(3)
+      sleep(2)
+      puts "click c1 ethnicwear"
+      ethnic_wear.click
+      wait_for_spinner
+      sleep(2)
+      puts "movin cursor over c1"
+      $driver.action.move_to(ethnic_wear).perform
+      puts "clicking c3"
+      #$driver.find_element(:css, ".submenu > li:nth-child(1) > ul > li > ul > li > ul > li > ul > li:nth-child(1) > ul > li:nth-child(1) > a.col-dark-grey").click
+      c3.click
+      wait_for_spinner
+      sleep(3)
 
-    	
-      @flag_no_product=0 
-      i=1
+      puts "clicking on product"
+      sleep(2)
+      first_product.click
+      wait_for_spinner
+      sleep(4)
+      #@flag_no_product=0 
+      #i=1
       begin
-        $driver.find_element(:css,"#product-container > div.ng-isolate-scope > ul > li:nth-child(2) > div > div.product-image > a > img").click
-        #first_product.click # for Live_URL
-        #$driver.find_element(:css,"#product-container > div > ul > li.product-wrap:nth-child(#{i}) > div.products-wrapper .go-to-product").click
-        
-        #it will click only non-pinned product ie normal product
-        # for base_URL
-        #$driver.find_element(:css,"#product-container > div.ng-isolate-scope > product-list > ul > li:nth-child(#{i}) > div > div.product-image > a > img").click
-        sleep(3)
-    	  puts "click product no #{i} ..."
-    	  wait_for_spinner
-	      puts @prod1 = productviewpage_productname.text.downcase  # storing the product name by down casting it
-    	   sleep(3)
+        puts @prod1 = productviewpage_productname.text.downcase  # storing the product name by down casting it
+         sleep(3)
          
-      	begin    
-      		puts "select size add to cart ..."
-      		size.click
-      		sleep(3)
-      		add_to_cart_button.click
+        begin    
+          puts "select size add to cart ..."
+          size.click
+          sleep(3)
+          add_to_cart_button.click
         rescue   
-        	begin    
-          		sleep(3)
-          		puts "no size found. add to cart ..."
-          		add_to_cart_button.click
-        	rescue
-          		puts "product got soldout (or) product not available"
-              @flag_no_product=1
-              i++  # to select the next product
-          		wait_for_spinner
-        	end 
-      	 end
+          begin    
+              sleep(3)
+              puts "no size found. add to cart ..."
+              add_to_cart_button.click
+          rescue
+              puts "product got soldout (or) product not available"
+              wait_for_spinner
+          end 
+         end
       end while @flag_no_product==1 
-  	end
+    end
 
   	# CHECKING MINICART--CLICK MINICART--> CHECK ADDED PRODUCT IN CART PAGE
-  	def cart_check
-    	puts "cart"
-      if @flag_no_product==0  
-    	 sleep(2)
-	     mini_cart_text.click
-    	 wait_for_spinner
-    	 puts @prod2 = cartpage_productname.text.downcase
-    	 if(@prod1 == @prod2)
-    	   	puts "product is added to the cart: PASS"
-    	 else
-      		puts "product is not added to the cart: FAIL" # cart is invalid ie when items in the cart are sold out 
-          puts "Removing sold out item present in the cart"
-          remove_sold_out.click
-
-    	 end
-    	 #wait_for_spinner
-    	 #puts "Proceed to checkoout ..." 
-    	 #proceed_to_checkout.click  
-    	 #wait_for_spinner
-      
-      else
-        print "product is not added to cart because of non availability"
-      end
-
-  	end
+    def cart_check
+      puts "cart checking"
+     
+       sleep(2)
+       mini_cart_text.click
+       wait_for_spinner
+       sleep(2)
+       puts @prod2 = cartpage_productname.text.downcase
+       if(@prod1 == @prod2)
+          puts "product is added to the cart: PASS"
+       else
+          puts "product is not added to the cart: FAIL" # cart is invalid ie when items in the cart are sold out 
+       end
+     end
 
     def proceed_to_pay
-      sleep(1)
-      #mini_cart_text.click
-      #wait_for_spinner
-      sleep(1)
+      sleep(2)
       puts "Proceed to checkoout ..." 
       proceed_to_checkout.click  
       wait_for_spinner
@@ -237,8 +219,6 @@ class BusinessAction
     puts "clicking on search button"
     search_field.click
     sleep(2)
-
-    #$driver.find_element(:css, "#aws_form_search > #appendedInputButtons").clear
     search_field.clear
     sleep(2)
     sleep(2)
