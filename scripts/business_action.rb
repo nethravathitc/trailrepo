@@ -29,7 +29,8 @@ class BusinessAction
 	def login_positive_scenarios 
 		puts "Login_positive_scenarios... "
     	wait_for_spinner
-    	
+
+    	$driver.action.move_to(login_name).perform
     	login_link.click
 
     	wait_for_spinner  
@@ -70,6 +71,25 @@ class BusinessAction
     	inner_logout.click
   	end
 
+  # CLEARING CART --BY CLICKING ON MINICART
+    def clear_cart
+      sleep(1)
+
+      element = $driver.find_element(:css,"#mini-cart-wrap > li > div.minicart-inner-div > a:nth-child(3) > span") 
+      puts "moving cursor to minicart"
+      $driver.action.move_to(element).perform
+
+      sleep(2) 
+      begin
+         empty_my_cart = $driver.find_element(:css,"#minicart-bottom > p.pull-left > a")
+         sleep(1)
+         empty_my_cart.click
+         sleep(1)
+       rescue 
+         puts "cart is already empty"
+       end 
+    end
+
   	# ADDING PRODUCT TO CART--HOME PAGE-->SALE-->PRODUCT CATALOG-->PRODUCT--> BUTTON CLICK
   	def adding_to_cart
     
@@ -86,11 +106,13 @@ class BusinessAction
       @flag_no_product=0 
       i=1
       begin
-        #first_product.click
+        $driver.find_element(:css,"#product-container > div.ng-isolate-scope > ul > li:nth-child(2) > div > div.product-image > a > img").click
+        #first_product.click # for Live_URL
         #$driver.find_element(:css,"#product-container > div > ul > li.product-wrap:nth-child(#{i}) > div.products-wrapper .go-to-product").click
         
         #it will click only non-pinned product ie normal product
-        $driver.find_element(:css,"#product-container > div.ng-isolate-scope > product-list > ul > li:nth-child(#{i}) > div > div.product-image > a > img").click
+        # for base_URL
+        #$driver.find_element(:css,"#product-container > div.ng-isolate-scope > product-list > ul > li:nth-child(#{i}) > div > div.product-image > a > img").click
         sleep(3)
     	  puts "click product no #{i} ..."
     	  wait_for_spinner
@@ -207,24 +229,98 @@ class BusinessAction
       
     end
 
-    #CLEARING CART BY CLICKING ON EMPTY_MY_CART
-    def clear_cart
-      sleep(1)
+  # SEARCHING PRODUCT WITH VALID KEYWORD
+    def search 
+    search_value = "saree"
+    puts "search for #{search_value}"
 
-      element = $driver.find_element(:css,"#mini-cart-wrap > li > div.minicart-inner-div > a:nth-child(3) > span") 
-      puts "moving cursor to minicart"
-      $driver.action.move_to(element).perform
+    puts "clicking on search button"
+    search_field.click
+    sleep(2)
 
-      sleep(2) 
-      begin
-         empty_my_cart = $driver.find_element(:css,"#minicart-bottom > p.pull-left > a")
-         sleep(1)
-         empty_my_cart.click
-         sleep(1)
-       rescue 
-         puts "cart is already empty"
-       end 
+    #$driver.find_element(:css, "#aws_form_search > #appendedInputButtons").clear
+    search_field.clear
+    sleep(2)
+    sleep(2)
+    #$driver.find_element(:css, "#aws_form_search > #appendedInputButtons").send_keys("#{search_value}")
+    search_field.send_keys("#{search_value}")
+    sleep(2)
+    $driver.find_element(:css, "#aws_form_search > #submitButton").click
+    sleep(2)
+    wait_for_spinner
+    title = $driver.find_element(:css, "#catalog-wrap > h1").text   
+    print "Page title: #{title} \n"
+    sleep(5)
+ end
+
+  def prices(i)
+    #wait_for_spinner
+    sleep(2)
+    begin 
+     price = $driver.find_element(:css,"#product-container > div > ul > li:nth-child(#{i}) > div > div.product-Info > span.product-price.pull-right > span.col-orange.text-right.text-capitalize.ng-binding").text()
+     price=price.gsub("Rs. ","").gsub(",","")
+    price=price.to_i
+    rescue Selenium::WebDriver::Error::NoSuchElementError
+    @error_sale_index << i
+    price=0
+  end
+      return price
+  end
+
+  def price_compare
+  slider_value = $driver.find_element(:css,"#price-filter > span.price-total-count").text.to_i  
+  puts "slider_value is : #{slider_value}"
+  @product_price =[]
+  #s = []  
+  @error_sale_index = []
+
+  for i in 1..slider_value
+    if prices(i)
+      @product_price << prices(i)
+    #else
+      #error_sale_index << i
     end
+    $driver.execute_script("window.scrollBy(0,100)", "")
+    sleep(2)
+  end
+  puts "Product prices #{@product_price}"
+  puts "Error sale index #{@error_sale_index}"
+
+  flag=0
+  for j in 0..slider_value-2
+    #puts a = product_price[j]
+    #puts b = product_price[j+1]
+    if @product_price[j]!=0 && @product_price[j+1]!=0
+
+      if @product_price[j] < @product_price[j+1]
+        flag=1
+        break
+      end 
+    end
+  end
+  if flag==0
+    puts "prices are in descend_by_master_price"
+  else
+    puts "prices are not in descend_by_master_price"
+  end
+end
+
+
+  def sort
+    puts "clicking on low-high"
+    
+    low_high.click
+    sleep(3)
+
+
+    puts "clicking on high-low"
+    
+    high_low.click
+    price_compare
+  end
+
+
+    
 
 end
 
