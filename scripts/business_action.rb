@@ -100,39 +100,52 @@ class BusinessAction
       sleep(2)
       puts "movin cursor over c1"
       $driver.action.move_to(ethnic_wear).perform
-      puts "clicking c3"
-      #$driver.find_element(:css, ".submenu > li:nth-child(1) > ul > li > ul > li > ul > li > ul > li:nth-child(1) > ul > li:nth-child(1) > a.col-dark-grey").click
-      c3.click
+      $driver.find_element(:css, ".submenu > li:nth-child(1) > ul > li > ul > li > ul > li > ul > li:nth-child(1) > ul > li:nth-child(1) > a.col-dark-grey").click
+      
       wait_for_spinner
       sleep(3)
 
-      puts "clicking on product"
-      sleep(2)
-      first_product.click
-      wait_for_spinner
-      sleep(4)
-      #@flag_no_product=0 
-      #i=1
-      begin
-        puts @prod1 = productviewpage_productname.text.downcase  # storing the product name by down casting it
-         sleep(3)
-         
-        begin    
-          puts "select size add to cart ..."
-          size.click
-          sleep(3)
-          add_to_cart_button.click
-        rescue   
+      @product_flag=0
+      i=4 # selection start from 4th product
+      j=1 # selecting size from first
+
+      
+      begin 
+
+        puts "clicking on product #{i}"
+        $driver.find_element(:css,"#product-container > div.ng-isolate-scope > ul > li:nth-child(#{i}) > div > div.product-image > a > img").click
+        wait_for_spinner
+        sleep(2)
+        if options.displayed?
+          puts "selecting size"
+          begin
+            $driver.find_element(:css,".in-stock:nth-child(#{j}) div").click
+            add_to_cart_button.click
+            @product_flag=1
+          rescue
+            if (j>7) # if size is exhausted
+              break
+            else
+              j=j+1
+            end
+              retry
+          end
+        else
           begin    
               sleep(3)
               puts "no size found. add to cart ..."
               add_to_cart_button.click
+              @product_flag=1
           rescue
               puts "product got soldout (or) product not available"
-              wait_for_spinner
+              i=i+1  # to select the next product
+              #wait_for_spinner
           end 
-         end
-      end while @flag_no_product==1 
+      end
+
+      end while @product_flag!=1
+      puts @prod1 = productviewpage_productname.text.downcase
+
     end
 
   	# CHECKING MINICART--CLICK MINICART--> CHECK ADDED PRODUCT IN CART PAGE
